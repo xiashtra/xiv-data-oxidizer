@@ -85,9 +85,9 @@ pub fn language_code(language: &Language) -> &str {
         Language::German => "de",
         Language::French => "fr",
         Language::Japanese => "ja",
-        Language::Korean => "kr",
         Language::ChineseSimplified => "chs",
-        Language::ChineseTraditional => "cht",
+        Language::Korean => "ko",
+        Language::ChineseTraditional => "tc",
         _ => "??",
     };
 }
