@@ -47,7 +47,7 @@ pub fn field_names(sheet_name: &str) -> Result<Option<Vec<String>>, Box<dyn Erro
     let file = match File::open(&path) {
         Ok(file) => file,
         Err(err) if err.kind() == std::io::ErrorKind::NotFound => return Ok(None),
-        Err(_) => return Err(format!("Could not find schema: {path}").into()),
+        Err(_) => return Err(format!("Could not read schema file: {path}").into()),
     };
 
     let schema: Schema = match serde_yml::from_reader(file) {

@@ -23,19 +23,6 @@ pub fn sheet(excel: &Excel, language: Language, sheet_name: &str) -> Result<(), 
     let mut columns = sheet.columns()?;
     columns.sort_by_key(|column| column.offset);
 
-    // Use schema field names when available, otherwise 0, 1, 2, ...
-    let header: Vec<String> = match field_names(sheet_name)? {
-        Some(names) => names,
-        None => {
-            let mut names: Vec<String> = Vec::new();
-            names.push(String::from("#"));
-            for i in 0..columns.len() {
-                names.push(i.to_string());
-            }
-            names
-        }
-    };
-
     // Set up the output file
     let language_code = language_code(&language);
     let path = format!("output/{}/{}.csv", language_code, sheet_name);
@@ -45,8 +32,11 @@ pub fn sheet(excel: &Excel, language: Language, sheet_name: &str) -> Result<(), 
     let mut writer =
         Writer::from_path(&path).expect(format!("Failed to open output file: {}", &path).as_str());
 
-    // Write the header
-    writer.serialize(&header)?;
+    // Write the field header
+    match field_names(sheet_name)? {
+        Some(names) => writer.serialize(&names)?,
+        None => (),
+    };
 
     // Write the file data
     for row in sheet.into_iter() {
