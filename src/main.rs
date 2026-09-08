@@ -50,7 +50,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     //     export::sheet(&excel, language, &String::from("Mount"))?;
     // }
 
-    // let language = Language::English;
+    // let language = ironworks::excel::Language::English;
     // excel.set_default_language(language);
     // export::sheet(&excel, language, "Mount")?;
 
